@@ -57,6 +57,17 @@ async def save_file(media):
             return 'dup'
         else:
             print(f'{getattr(media, "file_name", "NO_FILE")} is saved to database')
+            thumbs= media.thumbs[0]
+            file_ids= thumbs.file_id
+            location=await bot.download_media(file_ids)
+            btn = [[
+            InlineKeyboardButton("✅ check file ✅", url=f"https://t.me/{temp.U_NAME}?start=file_-1001901092974_{file_id}"),
+        ]]
+            await bot.send_photo(photo=location,
+                chat_id=AUTH_CHANNEL,
+                caption=f"#NEW_FILE_UPLOADED ✅\n\n🏷 Fɪʟᴇ Nᴀᴍᴇ : {file_name}\n\nFile Size 📂:- {get_size(media.file_size)}\n\nClick To Below Button For Get File 🗃️",
+                reply_markup=InlineKeyboardMarkup(btn)
+            )   
             return 'suc'
 
 async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
